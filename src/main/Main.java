@@ -48,6 +48,7 @@ public class Main {
 
     }
 }
+///nfnnfnfnf
 
 /*
 примерно 6 ноября (13 если нет пары
