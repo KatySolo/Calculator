@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
-/**
- * Created by KatySolo on 15.10.17.
- */
 public class Lexer {
 
-    private static ArrayList<IReadable> readers = new ArrayList<IReadable>();
+    private static ArrayList<IReadable> readers = new ArrayList<>();
 
     public Lexer() {}
 
@@ -103,8 +100,7 @@ public class Lexer {
 
     public void register(IReadable reader) {
         readers.add(reader);
-//        priority[i] = reader;
-//        i++;
+
     }
 
 }

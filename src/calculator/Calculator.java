@@ -30,8 +30,12 @@ public class Calculator {
         }
     }
 
-    public double Calculate(String input)
+    public double Calculate(String input) throws Exception
     {
+        if (!isCorrectBrackets(input))
+        {
+            throw new Exception("Wrong input format");
+        }
         String output = GetExpression(input); //Преобразовываем выражение в постфиксную запись
         return Counting(output); //Решаем и возращаем полученное выражение
 
@@ -40,7 +44,7 @@ public class Calculator {
     private double Counting(String input)
     {
         double result = 0; //Результат
-        Stack<Double> temp = new Stack<Double>(); //Dhtvtyysq стек для решения
+        Stack<Double> temp = new Stack<>(); //Dhtvtyysq стек для решения
 
         for (int i = 0; i < input.length(); i++) //Для каждого символа в строке
         {
@@ -81,10 +85,10 @@ public class Calculator {
         return temp.peek(); //Забираем результат всех вычислений из стека и возвращаем его
     }
 
-    public String GetExpression(String input)
+    private String GetExpression(String input)
     {
         String output = ""; //Строка для хранения выражения
-        Stack<Character> operStack = new Stack<Character>(); //Стек для хранения операторов
+        Stack<Character> operStack = new Stack<>(); //Стек для хранения операторов
 
         for (int i = 0; i < input.length(); i++) //Для каждого символа в входной строке
         {
@@ -142,4 +146,30 @@ public class Calculator {
 
         return output; //Возвращаем выражение в постфиксной записи
     }
+
+    private boolean isCorrectBrackets (String expression)
+    {
+        boolean isCorrect = true;
+        String openBrackets = "([{";
+        String closeBrackets = ")}]";
+
+        Stack<CharSequence> stack = new Stack<>();
+        for (int i =0; i < expression.length(); i++)
+        {
+            CharSequence bracket = Character.toString(expression.charAt(i));
+            if (openBrackets.contains(bracket))
+            {
+                stack.push(bracket);
+            }
+            else if (closeBrackets.contains(bracket)){
+                stack.pop();
+            }
+        }
+        return stack.empty();
+    }
+
+//    Через стек. Бежишь по строке. Если стек пустой, кладешь в него текущий символ.
+//    Если непустой, то 1)если на верхушке эта же открывающая скобка, то один символ удаляется из стека
+//                      2) если открывающая скобка не та, а текущий символ в строке закрывающая, то выходим - неправильно
+//                      3)иначе кладем скобку в стек. В конце в стеке ничего не должно быть при правильной строке.
 }
