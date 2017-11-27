@@ -23,7 +23,7 @@ public class Main {
 //        lexer.register(new WordReader());
 //        lexer.register(new VectorReader());
 //        lexer.register(new DoubleReader());
-
+//
 //        try {
 //            System.out.println(lexer.tokenize("2i+1-2i"));
 //            System.out.println(lexer.tokenize("(1,2,3) + (2,4,6)"));
@@ -31,19 +31,30 @@ public class Main {
 //            System.out.println(lexer.tokenize("24 + 53 / 2"));
 //            System.out.println(lexer.tokenize("2.4+4.5"));
 //
-//        }
 //        } catch (Exception e) {
 //            System.out.print(e.getMessage());
 //        }
 
         Calculator calc = new Calculator();
         try {
-            System.out.println(calc.Calculate("2+3*4")); //14
-            System.out.println(calc.Calculate("(23+4)*2")); // 27*2 = 54
-            System.out.println(calc.Calculate("3^2 + 45 ")); //9+45 =  54
+//            System.out.println(calc.Calculate("2+3*4")); //14
+//            System.out.println(calc.Calculate("(23+4)*2")); // 27*2 = 54
+//            System.out.println(calc.Calculate("3^2 + 45 ")); //9+45 =  54
+//            System.out.println(calc.Calculate("1+2i + 2+8i"));//3+10i
+//            System.out.println(calc.Calculate("(1+2i)*(2+2i)"));
+//            System.out.println(calc.Calculate("(1+2i)/(2+2i)"));
+//            System.out.println(calc.Calculate("1+2i - 2+2i"));
+//            System.out.println(calc.Calculate("2i+2+3i "));
+//            System.out.println(calc.Calculate("(1,3,4)+(1,3,4)"));
+//            System.out.println(calc.Calculate("(1,3,4)+(1,3,4,4)"));
+//            System.out.println(calc.Calculate("(1,3,4)-(1,3,4)"));
+//            System.out.println(calc.Calculate("(1,3,4)*4"));
+            System.out.println(calc.Calculate("1+2i+[(i,i,i)+(1,1,1)]+2i+1"));
+
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getClass() + e.getMessage());
+            e.printStackTrace();
         }
 
     }

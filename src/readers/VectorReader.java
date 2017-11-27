@@ -3,9 +3,6 @@ package readers;
 
 import java.util.ArrayList;
 
-/**
- * Created by KatySolo on 29.10.17.
- */
 public class VectorReader implements IReadable {
 
     public Token tryReadToken(String s) {
@@ -20,7 +17,7 @@ public class VectorReader implements IReadable {
                 isOpen = true;
                 continue;
             }
-            if (Character.isDigit(letter))
+            if (Character.isDigit(letter) || letter == 'i')
             {
                 numberBuilder.append(letter);
                 continue;

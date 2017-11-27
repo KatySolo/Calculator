@@ -2,6 +2,8 @@ package readers;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ComplexNumberReader implements IReadable {
 
@@ -9,57 +11,30 @@ public class ComplexNumberReader implements IReadable {
     public Token tryReadToken(String s) {
         //4+1+2i+4 = 5+2i
         //2i+1-3i
-        String[] splitedWord = s.split("[+-]");
-        int pointer = 0;
-        String sign = "+";
-        String complexNumber;
-        for (String part : splitedWord)
-        {
-            if (Objects.equals(part, "")){
-                break;
-            }
-            if (part.contains("i") && splitedWord.length > 1)
-            {
-                if (pointer != 0)
-                {
-                    int index = s.indexOf(part)-1;
-                    sign = s.substring(index,index+1);
-                    complexNumber = splitedWord[pointer - 1] + sign + part;
-                }
-                else
-                {
-                    complexNumber = part;
-                }
-                return new Token("complex",complexNumber);
-
-            }
-            pointer += 1;
+        if (!Character.isDigit(s.charAt(0))) {
+            return null;
         }
-//
-           return null;
+        Pattern patternWhole = Pattern.compile("([-]?[0-9]+\\.?[0-9]?)([-|+]+[0-9]+\\.?[0-9]?)[i$]+");
+        Pattern patternImaginary = Pattern.compile("([-]?[0-9]+\\.?[0-9]?)[i$]");
+        Matcher m = patternWhole.matcher(s);
+        Matcher m1 = patternImaginary.matcher(s);
+        boolean result_whole = m.find();
+        boolean result_imag = m1.find();
 
-//        StringBuilder real_part = new StringBuilder();
-//        StringBuilder imaginary_part = new StringBuilder();
-//        Boolean isImaginary= false;
-//        Boolean isReal = true;
-//        for (char letter : s.toCharArray())
-//        {
-//            if (letter == '+')
-//            {
-//                isImaginary = true;
-//                isReal = false;
-//                continue;
-//            }
-//            if (Character.isDigit(letter) && isReal)
-//            {
-//                real_part.append(letter);
-//                continue;
-//            }
-//            if (Character.isDigit(letter) && isImaginary)
-//            {
-//                imaginary_part.append(letter);
-//                continue;
-//            }
-//        }
+        if (!(result_imag || result_whole))
+        {
+            return null;
+        }
+
+        if (result_imag && !result_whole)
+            return new Token("complex",m1.group());
+        if (result_whole && !result_imag)
+            return new Token("complex",m.group());
+
+        if (m.start() < m1.start()) {
+            return new Token("complex",m.group());
+        }
+        else
+            return new Token("complex",m1.group());
     }
 }

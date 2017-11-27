@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class OperationReader implements IReadable {
 
-    static char[] operations = new char[]{'+', '-', '*', '/'};
+    static private char[] operations = new char[]{'+', '-', '*', '/','^'};
 
     public Token tryReadToken(String s) {
         char[] symbols = s.toCharArray();
