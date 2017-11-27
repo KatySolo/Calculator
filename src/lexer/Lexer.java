@@ -12,7 +12,7 @@ public class Lexer {
 
     public Lexer() {}
 
-    public ArrayList<Token> tokenize(String s) throws Exception{ //// TODO: 20.11.17 покрытие интов и векторов пересекаются
+    public ArrayList<Token> tokenize(String s) throws Exception{
         ArrayList<Token> tokens = new ArrayList<>();
         for (int i=0; i < s.length(); i++){
             Token token = AnalyzePart(s.substring(i));
