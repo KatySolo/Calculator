@@ -72,7 +72,7 @@ public class Calculator {
 
     }
 
-    private double Counting(ArrayList<Token> input) throws Exception
+    private double Counting(ArrayList<Token> input) throws Exception //TODO think about performing operations
     {
         double result = 0; //Результат
         Stack<Token> temp = new Stack<>(); //Dhtvtyysq стек для решения
@@ -101,7 +101,7 @@ public class Calculator {
                 Token b = temp.pop();
 
                 boolean isAvailable = CheckAvailability(a,b);
-                if (isAvailable) {
+                if (isAvailable) { // TODO rewrite the operation logic
                     switch (token.getText()) //И производим над ними действие, согласно оператору
                     {
                         case "+":
