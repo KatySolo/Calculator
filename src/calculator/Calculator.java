@@ -35,7 +35,11 @@ public class Calculator {
         switch (s)
         {
             case "(": return 0;
+            case "[": return 0;
+            case "{": return 0;
             case ")": return 1;
+            case "]": return 1;
+            case "}": return 1;
             case "+": return 2;
             case "-": return 3;
             case "*": return 4;
@@ -61,6 +65,7 @@ public class Calculator {
         {
             System.out.println(e.getMessage());
         }
+        System.out.println(output);
         return 0.0;
         //return Counting(output); //Решаем и возращаем полученное выражение
 
@@ -116,16 +121,17 @@ public class Calculator {
         Stack<Token> operStack = new Stack<>(); //Стек для хранения операторов
 
         for (Token token : input) {
+            String type = token.getType();
             //for (int i = 0; i < input.length(); i++) //Для каждого символа в входной строке
             {
                 //Разделители пропускаем
                 //if (IsDelimeter(input.charAt(i)))
-                if (token.getType().equals("whitespace"))
+                if (type.equals("whitespace"))
                     continue; //Переходим к следующему символу
 
                 //Если символ - цифра, то считываем все число
                 //if (Character.isDigit(input.charAt(i))) //Если цифра
-                if (!token.getType().equals("operation") && !token.getType().equals("bracket")) {
+                if (!type.equals("operation") && !type.endsWith("bracket")) {
 //                //Читаем до разделителя или оператора, что бы получить число
 //                while (!IsDelimeter(input.charAt(i)) && !IsOperator(input.charAt(i)))
 //                {
@@ -141,9 +147,9 @@ public class Calculator {
                 //Если символ - оператор
                 //if (IsOperator(input.charAt(i)))//Если оператор
                 {
-                    if (Objects.equals(token.getType(),"open bracket")) //Если символ - открывающая скобка
+                    if (Objects.equals(type,"open bracket")) //Если символ - открывающая скобка
                         operStack.push(token); //Записываем её в стек
-                    else if (Objects.equals(token.getType(),"close bracket")) //Если символ - закрывающая скобка
+                    else if (Objects.equals(type,"closing bracket")) //Если символ - закрывающая скобка
                     {
                         //Выписываем все операторы до открывающей скобки в строку
                         Token s = operStack.pop();

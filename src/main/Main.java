@@ -49,7 +49,11 @@ public class Main {
 //            System.out.println(calc.Calculate("(1,3,4)+(1,3,4,4)"));
 //            System.out.println(calc.Calculate("(1,3,4)-(1,3,4)"));
 //            System.out.println(calc.Calculate("(1,3,4)*4"));
-            System.out.println(calc.Calculate("1+2i+[(i,i,i)+(1,1,1)]+2i+1"));
+            //System.out.println(calc.Calculate("1+2i+[(i,i,i)+(1,1,1)]+2i+1"));
+            System.out.println(calc.Calculate("1*2+6-5"));
+            System.out.println(calc.Calculate("1*(2+6)-5"));
+
+
 
         }
         catch (Exception e){
