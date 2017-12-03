@@ -17,7 +17,7 @@ public class Calculator {
         lexer.register(new VectorReader());
         lexer.register(new OperationReader());
         lexer.register(new WhitespaceReader());
-        lexer.register(new DoubleReader());
+        //lexer.register(new DoubleReader());
         lexer.register(new IntReader());
         lexer.register(new BracketReader());
     }
@@ -50,7 +50,7 @@ public class Calculator {
         }
     }
 
-    public double Calculate(String input) throws Exception
+    public Token Calculate(String input) throws Exception
     {
         if (!isCorrectBrackets(input))
         {
@@ -68,21 +68,20 @@ public class Calculator {
             System.out.println(e.getMessage());
         }
         System.out.println(output);
-        return 0.0;
+        return new Token("int","0");
 
     }
 
-    private double Counting(ArrayList<Token> input) throws Exception //TODO think about performing operations
+    public Token Counting(ArrayList<Token> input) throws Exception //TODO think about performing operations
     {
-        double result = 0; //Результат
+        Token result = new Token("int", "0"); //Результат
         Stack<Token> temp = new Stack<>(); //Dhtvtyysq стек для решения
 
         for (Token token : input) //Для каждого символа в строке
         {
             String type = token.getType();
             //Если символ - цифра, то читаем все число и записываем на вершину стека
-            if (!type.equals("operation") && !type.endsWith("bracket"))
-            {
+            if (!type.equals("operation") && !type.endsWith("bracket")) {
 //                String a = "";
 //
 //                while (!IsDelimeter(input.charAt(i)) && !IsOperator(input.charAt(i))) //Пока не разделитель
@@ -93,40 +92,39 @@ public class Calculator {
 //                }
                 temp.push(token); //Записываем в стек
 //                i--;
-            }
-            else if (type.equals("operation")) //Если символ - оператор //TODO check the availability of operation
+            } else if (type.equals("operation")) //Если символ - оператор //TODO check the availability of operation
             {
                 //Берем два последних значения из стека
                 Token a = temp.pop();
                 Token b = temp.pop();
 
-                boolean isAvailable = CheckAvailability(a,b);
-                if (isAvailable) { // TODO rewrite the operation logic
-                    switch (token.getText()) //И производим над ними действие, согласно оператору
-                    {
-                        case "+":
-                            result = b + a;
-                            break;
-                        case "-":
-                            result = b - a;
-                            break;
-                        case "*":
-                            result = b * a;
-                            break;
-                        case "/":
-                            result = b / a;
-                            break;
-                        case "^":
-                            result = Double.parseDouble(String.valueOf(Math.pow(
-                                    Double.parseDouble(String.valueOf(b)),
-                                    Double.parseDouble(String.valueOf(a)))));
-                            break;
-                    }
-                    temp.push(result);//Результат вычисления записываем обратно в стек
+//                boolean isAvailable = CheckAvailability(a,b);
+//                if (isAvailable) { // TODO rewrite the operation logic
+                switch (token.getText()) //И производим над ними действие, согласно оператору
+                {
+                    case "+":
+                        result = new Token("int", Integer.toString(Integer.parseInt(b.getText()) + Integer.parseInt(a.getText())));
+                        break;
+                    case "-":
+                        result = new Token("int", Integer.toString(Integer.parseInt(b.getText()) - Integer.parseInt(a.getText())));
+                        break;
+                    case "*":
+                        result = new Token("int", Integer.toString(Integer.parseInt(b.getText()) * Integer.parseInt(a.getText())));
+                        break;
+                    case "/":
+                        result = new Token("int", Integer.toString(Integer.parseInt(a.getText()) / Integer.parseInt(b.getText())));
+                        break;
+                    case "^":
+//                            result = Double.parseDouble(String.valueOf(Math.pow(
+//                                    Double.parseDouble(String.valueOf(b)),
+//                                    Double.parseDouble(String.valueOf(a)))));
+                        break;
                 }
-                else {
-                    throw new Exception("Can not perform the action");
-                }
+                temp.push(result);//Результат вычисления записываем обратно в стек
+//                }
+//                else {
+//                    throw new Exception("Can not perform the action");
+//                }
             }
         }
         return temp.peek(); //Забираем результат всех вычислений из стека и возвращаем его
@@ -139,7 +137,7 @@ public class Calculator {
         return !(Objects.equals(type_a, "vector") && Objects.equals(type_b, "double")) &&
                 !(Objects.equals(type_a, "double") && Objects.equals(type_b, "vector"));
     }
-    private ArrayList<Token> GetExpression(ArrayList<Token> input) throws Exception
+    public ArrayList<Token> GetExpression(ArrayList<Token> input) throws Exception
     {
         ArrayList<Token> output = new ArrayList<>(); //Строка для хранения выражения
         Stack<Token> operStack = new Stack<>(); //Стек для хранения операторов
@@ -240,8 +238,4 @@ public class Calculator {
         return stack.empty();
     }
 
-//    Через стек. Бежишь по строке. Если стек пустой, кладешь в него текущий символ.
-//    Если непустой, то 1)если на верхушке эта же открывающая скобка, то один символ удаляется из стека
-//                      2) если открывающая скобка не та, а текущий символ в строке закрывающая, то выходим - неправильно
-//                      3)иначе кладем скобку в стек. В конце в стеке ничего не должно быть при правильной строке.
 }
