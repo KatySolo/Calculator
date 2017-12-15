@@ -1,6 +1,9 @@
 package main;
 
 import calculator.Calculator;
+import calculator.ComplexNumber;
+import calculator.ICalculatable;
+import calculator.Operand;
 import lexer.Lexer;
 import vectors.*;
 import readers.*;
@@ -53,7 +56,12 @@ public class Main {
 //            System.out.println(calc.Calculate("2*2+6-5"));
 //            System.out.println(calc.Calculate("2*(2+6)-5"));
 //            System.out.println(calc.Calculate("3^3+1-3"));
-            System.out.println(calc.Calculate("(1,2,3)+(1,2,3)"));
+            //System.out.println(calc.Calculate("(1,2,3)+(1,2,3)"));
+            ComplexNumber cp1 = new ComplexNumber("-1+2i");
+            ComplexNumber cp2 = new ComplexNumber("2-4i");
+            System.out.println(cp1.Add(cp2).toString());
+//            Operand op = new Operand(new Token("int", "3"));
+//            ICalculatable oper =  op.getOperand();
 
 
 

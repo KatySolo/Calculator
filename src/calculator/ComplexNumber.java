@@ -1,70 +1,80 @@
 package calculator;
 
-import readers.Token;
-
-import java.io.Console;
-import java.util.logging.ConsoleHandler;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class ComplexNumber {
+public class ComplexNumber implements ICalculatable{
 
     private double Real = 0;
-    private char Sign = ' ';
     private double Imaginary = 0;
 
 
-    public ComplexNumber (String number)
+    public ComplexNumber (String number) //TODO check if it real or int ot without real part
     {
-        String[] separatedParts = number.split("\\+");
-        if (separatedParts.length == 1)
+        char sign = '+';
+        if (!number.contains("i"))
         {
-            separatedParts = number.split("-");
-            Sign = '-';
-        }
-        else {
-            Sign = '+';
-        }
-        Real = Double.parseDouble(separatedParts[0]);
-        Imaginary = Double.parseDouble(separatedParts[1].substring(0,separatedParts[1].length()-1));
+            Real = Double.parseDouble(number);
+            sign = '+';
+            Imaginary = 0;
 
+        } else {
+            String[] separatedParts = number.split("\\+");
+            if (separatedParts.length == 1) {
+                separatedParts = number.split("-");
+                sign = '-';
+            } else {
+                sign = '+';
+            }
+            Real = Double.parseDouble(separatedParts[0]);
+            double unsignedImaginary = Double.parseDouble(separatedParts[1].substring(0, separatedParts[1].length() - 1));
+            Imaginary = (sign == '+')? unsignedImaginary : (-1)*unsignedImaginary;
+
+        }
     }
-    public ComplexNumber (double real, char sign, double imaginary){
+    public ComplexNumber (double real,double imaginary){
         Real = real;
-        Sign = sign;
         Imaginary = imaginary;
     }
 
 
     public double getRealPart(){return Real;}
-    public double getSign(){return Sign;}
     public double getImaginaryPart(){return Imaginary;}
 
     public String toString()
     {
-        return String.format("{%a}{%c}{%a}i",Real,Sign,Imaginary);
+        return String.valueOf(Real) + Imaginary + 'i';
     }
 
-    public ComplexNumber Add(ComplexNumber a)
+    public ComplexNumber Add(ComplexNumber a) //TODO create add methods
     {
-
-
+        return new ComplexNumber(getRealPart()+a.getRealPart(), getImaginaryPart()+a.getImaginaryPart());
     }
 
     public ComplexNumber Sub (ComplexNumber a)
     {
-        return null;
+        return new ComplexNumber(getRealPart()-a.getRealPart(), getImaginaryPart()-a.getImaginaryPart());
     }
 
+    public ComplexNumber Div (ComplexNumber a)
+    {
+        double newRealPart= getRealPart()*a.getRealPart()+getImaginaryPart()*a.getImaginaryPart()/
+                (Math.pow(a.getRealPart(),2)+Math.pow(a.getImaginaryPart(),2));
+        double newImaginaryPart = a.getRealPart()*getImaginaryPart()-a.getImaginaryPart()*getRealPart()/
+                (Math.pow(a.getRealPart(),2)+Math.pow(a.getImaginaryPart(),2));
+        return new ComplexNumber(newRealPart, newImaginaryPart);
+
+    }
     public ComplexNumber Mul (ComplexNumber a)
     {
-        return null;
+
+        return new ComplexNumber((getRealPart()*a.getRealPart())-getImaginaryPart()*a.getImaginaryPart(),
+                                getRealPart()*a.getImaginaryPart()+getImaginaryPart()*a.getRealPart());
+
     }
 
-    public ComplexNumber Pow (ComplexNumber a)
+    public ComplexNumber Pow (ComplexNumber a, double pow)
     {
-        return null;
+        return new ComplexNumber(Math.pow(a.getRealPart(),pow),0);
     }
+
 
 
 

@@ -57,7 +57,6 @@ public class Calculator {
 
         ArrayList<Token> tokens = lexer.tokenize(input);
         ArrayList<Token> output = new ArrayList<>();
-        ComplexNumber cp = new ComplexNumber("2+3i");
         try {
             output = GetExpression(tokens); //Преобразовываем выражение в постфиксную запись
             return Counting(output);
@@ -71,10 +70,10 @@ public class Calculator {
 
     }
 
-    public Token Counting(ArrayList<Token> input) throws Exception //TODO think about performing operations
+    public Operand Counting(ArrayList<Token> input) throws Exception //TODO think about performing operations
     {
-        Token result = new Token(); //Результат
-        Stack<Token> temp = new Stack<>(); //Dhtvtyysq стек для решения
+        Operand result = null; //Результат
+        Stack<Operand> temp = new Stack<>(); //Dhtvtyysq стек для решения
 
         for (Token token : input) //Для каждого символа в строке
         {
@@ -89,51 +88,30 @@ public class Calculator {
 //                    i++;
 //                    if (i == input.length()) break;
 //                }
-                temp.push(token); //Записываем в стек
+                temp.push(new Operand(token)); //Записываем в стек
 //                i--;
             } else if (type.equals("operation")) //Если символ - оператор //TODO check the availability of operation
             {
                 //Берем два последних значения из стека
-                Token a = temp.pop();
-                Token b = temp.pop();
+                Operand a = temp.pop();
+                Operand b = temp.pop();
 
-                switch (token.getText())
+                switch (token.getText()) //todo make methods
                 {
-//                    case "+":
-//                        return new Token(a.getType(), a.Add(b));
-//                    case "-":
-//                        return new Token(a.getType(), a.Sub(b));
-//                    case "*":
-//                        return new Token(a.getType(), a.Mul(b));
-//                    case "^":
-//                        return new Token(a.getType(), a.Pow(b));
+                    case "+":
+                        result = a.Add(b);
+                        break;
+                    case "-":
+                        result = a.Sub(b);
+                        break;
+                    case "*":
+                        result = a.Mul(b);
+                        break;
+                    case "^":
+                        result = a.Pow(b);
+                        break;
 
                 }
-//                result = PerformCalculations(token.getText(), a,b);
-//                boolean isAvailable = CheckAvailability(a,b);
-//                if (isAvailable) { // TODO rewrite the operation logic
-//                switch (token.getText()) //И производим над ними действие, согласно оператору
-//                {
-
-//                    case "+":
-//                        result = new Token("double", Double.toString(Double.parseDouble(b.getText()) + Double.parseDouble(a.getText())));
-//                        break;
-//                    case "-":
-//                        result = new Token("double", Double.toString(Double.parseDouble(b.getText()) - Double.parseDouble(a.getText())));
-//                        break;
-//                    case "*":
-//                        result = new Token("double", Double.toString(Double.parseDouble(b.getText()) * Double.parseDouble(a.getText())));
-//                        break;
-//                    case "/":
-//                        result = new Token("double", Double.toString(Double.parseDouble(a.getText()) / Double.parseDouble(b.getText())));
-//                        break;
-//                    case "^":
-//                        result = new Token("double",Double.toString(Math.pow(Double.parseDouble(a.getText()),Double.parseDouble(b.getText()))));
-//                            result = Double.parseDouble(String.valueOf(Math.pow(
-//                                    Double.parseDouble(String.valueOf(b)),
-//                                    Double.parseDouble(String.valueOf(a)))));
-//                        break;
-//                }
                 temp.push(result);//Результат вычисления записываем обратно в стек
 //                }
 //                else {
@@ -144,14 +122,6 @@ public class Calculator {
         return temp.peek(); //Забираем результат всех вычислений из стека и возвращаем его
     }
 
-
-    private boolean CheckAvailability (Token a, Token b) {
-        String type_a = a.getType();
-        String type_b = b.getType();
-
-        return !(Objects.equals(type_a, "vector") && Objects.equals(type_b, "double")) &&
-                !(Objects.equals(type_a, "double") && Objects.equals(type_b, "vector"));
-    }
     public ArrayList<Token> GetExpression(ArrayList<Token> input) throws Exception
     {
         ArrayList<Token> output = new ArrayList<>(); //Строка для хранения выражения
