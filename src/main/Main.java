@@ -43,7 +43,7 @@ public class Main {
 //            System.out.println(calc.Calculate("2+3*4")); //14
 //            System.out.println(calc.Calculate("(23+4)*2")); // 27*2 = 54
 //            System.out.println(calc.Calculate("3^2 + 45 ")); //9+45 =  54
-//            System.out.println(calc.Calculate("1+2i + 2+8i"));//3+10i
+            System.out.println(calc.Calculate("1+2i + 2+8i"));//3+10i
 //            System.out.println(calc.Calculate("(1+2i)*(2+2i)"));
 //            System.out.println(calc.Calculate("(1+2i)/(2+2i)"));
 //            System.out.println(calc.Calculate("1+2i - 2+2i"));
@@ -57,9 +57,10 @@ public class Main {
 //            System.out.println(calc.Calculate("2*(2+6)-5"));
 //            System.out.println(calc.Calculate("3^3+1-3"));
             //System.out.println(calc.Calculate("(1,2,3)+(1,2,3)"));
-            ComplexNumber cp1 = new ComplexNumber("-1+2i");
-            ComplexNumber cp2 = new ComplexNumber("2-4i");
-            System.out.println(cp1.Add(cp2).toString());
+//            ComplexNumber cp1 = new ComplexNumber("-1+2i");
+//            ComplexNumber cp2 = new ComplexNumber("2-4i");
+//            System.out.println(cp1.Add(cp2).toString());
+
 //            Operand op = new Operand(new Token("int", "3"));
 //            ICalculatable oper =  op.getOperand();
 

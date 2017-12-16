@@ -9,7 +9,7 @@ import vectors.VectorNd;
 import java.util.ArrayList;
 
 public class Operand implements ICalculatable {
-    private Vector vector = null;
+    private VectorNd vector = null;
     private ComplexNumber number = null;
 
     public Operand(Token a) {
@@ -27,24 +27,72 @@ public class Operand implements ICalculatable {
                 coordsArray[i] = coordsList.get(i);
             }
 
-            if (coordsArray.length == 2) {
-                vector = new Vector2d(coordsArray[0], coordsArray[1]);
-            } else if (coordsArray.length == 3) {
-                vector = new Vector3d(coordsArray[0], coordsArray[1], coordsArray[2]);
-            } else {
+//            if (coordsArray.length == 2) {
+//                vector = new Vector2d(coordsArray[0], coordsArray[1]);
+//            } else if (coordsArray.length == 3) {
+//                vector = new Vector3d(coordsArray[0], coordsArray[1], coordsArray[2]);
+//            } else {
                 vector = new VectorNd(coordsArray);
-            }
         }else
         {
             number = new ComplexNumber(a.getText());
         }
     }
 
-//    public String toString() {
-//        String vectorStr = (vector == null)? "" : vector.toString();
-//        String numberStr = (number == null)? "" : number.toString();
-//
-//        retun
-//    }
+    public String GetType() {
+        if (vector != null && number != null)
+        {
+            return "Compound";
+        }
+        if (vector == null)
+        {
+            if (number == null)
+            {
+                return "None";
+            }
+            else
+            {
+                return "Number";
+            }
+        }
+        else
+        {
+            return "Vector";
+        }
+    }
+
+
+    public Operand Add(Operand a) {
+        ComplexNumber resultNumber;
+        VectorNd resultVector;
+
+        String fisrtType = GetType();
+        String secondType = a.GetType();
+        if (fisrtType == secondType)
+        {
+            switch (fisrtType)
+            {
+                case "number":
+                    resultNumber = number.Add(a.number);
+                    return new Operand(resultNumber.toToken());
+                case "vector":
+                    resultVector = vector.add(a.vector);
+//                    return new Operand();
+            }
+        }
+            return null;
+    }
+
+    public Operand Sub(Operand a) {
+        return null;
+    }
+
+    public Operand Mul(Operand a) {
+        return null;
+    }
+
+    public Operand Pow(Operand a) {
+        return null;
+    }
 
 }

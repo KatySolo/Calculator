@@ -1,5 +1,7 @@
 package calculator;
 
+import readers.Token;
+
 public class ComplexNumber implements ICalculatable{
 
     private double Real = 0;
@@ -73,6 +75,17 @@ public class ComplexNumber implements ICalculatable{
     public ComplexNumber Pow (ComplexNumber a, double pow)
     {
         return new ComplexNumber(Math.pow(a.getRealPart(),pow),0);
+    }
+
+    public Token toToken()
+    {
+        char sign ='-';
+        if (Imaginary >= 0)
+        {
+            sign = '+';
+        }
+        String complexNum = Real + Character.toString(sign) + Imaginary;
+        return new Token ("complex", complexNum);
     }
 
 
